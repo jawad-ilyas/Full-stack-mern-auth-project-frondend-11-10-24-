@@ -1,7 +1,10 @@
+import Container from "../wrapper/Container"
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Container>
+      <div>Home</div>
+    </Container>
   )
 }
 

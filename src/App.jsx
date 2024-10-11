@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, } from "react-router-dom"
 // * this file present into page / index.js 
 import { About, ErrorPage, Home, Profile, SignIn, SignUp } from "./pages"
+// * this file import from the component header.jsx
+import { Header } from "./components"
 const App = () => {
 
 
@@ -8,6 +10,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
+      <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="aboutus" element={<About />} />

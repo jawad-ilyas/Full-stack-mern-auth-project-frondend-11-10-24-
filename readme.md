@@ -91,3 +91,8 @@ npm install react-router-dom
 - [React Router Documentation](https://reactrouter.com/en/main/start/tutorial)
 
 
+## install other dependecny for the prop validation 
+
+```bash
+npm install prop-types
+```
