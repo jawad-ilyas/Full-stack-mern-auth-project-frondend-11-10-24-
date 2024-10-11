@@ -9,10 +9,7 @@ const Container = ({ children }) => {
 }
 Container.propTypes = {
     children: PropTypes.node.isRequired,
-    render: function () {
-        return <div>Hello {this.props.children}</div>;
 
-    }
 }
 
 export default Container

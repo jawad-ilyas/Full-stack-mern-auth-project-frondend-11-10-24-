@@ -1,7 +1,69 @@
+import { Link } from "react-router-dom";
+import { ConsoleValue } from "../utilis/ConsoleValues.utilis.js";
+import Container from "../wrapper/Container"
 
+import { useForm } from "react-hook-form"
 const SignUp = () => {
+
+  const { register, reset, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = (data) => {
+    console.log(data)
+    ConsoleValue(data)
+    reset();
+  }
   return (
-    <div>SignUp</div>
+    <Container >
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-3xl font-semibold text-center py-4">Sign Up</h1>
+        <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+
+            <input
+              className={`w-full rounded py-2 px-2 outline-none border ${errors?.name ? 'border-red-500' : 'border-gray-300'
+                } focus:border-blue-500 transition-all duration-200`}
+              type="text"
+
+              {...register('name', { required: 'Name is a required field' })}
+              placeholder="Enter Your Name"
+            />
+
+            {errors?.name && <span className="text-red-500 text-sm mt-1">{errors.name.message}</span>}
+          </div>
+          <div className="mb-4">
+            <input
+              className={`w-full rounded py-2 px-2 outline-none border  focus:border-blue-500 transition-all duration-200`}
+              type="password"
+              {...register('password', {
+                required: 'Password is a required field',
+              })}
+              placeholder="Enter Your password"
+            />
+            {errors?.password && <span className="text-red-500 text-sm mt-1">{errors.password.message}</span>}
+          </div>
+
+
+          <div className="mb-4">
+            <div className="relative">
+              <input
+                className={`w-full rounded py-2 px-2 outline-none border ${errors?.email ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 transition-all duration-200`}
+                type="email"
+                {...register('email', { required: 'Email is a required field' })}
+                placeholder="Enter Your Email"
+              />
+
+            </div>
+            {errors?.email && <span className="text-red-500 text-sm mt-1">{errors.email.message}</span>}
+          </div>
+
+          <button className="bg-slate-700 w-full rounded-md py-3 text-white font-bold text-xl">Submit </button>
+        </form>
+        <div className="flex flex-row space-x-3 mt-4">
+          <p>Have an account ?</p>
+          <Link to="/signin" className="text-blue-400">Sign In</Link>
+        </div>
+      </div>
+    </Container>
   )
 }
 

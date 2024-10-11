@@ -96,3 +96,10 @@ npm install react-router-dom
 ```bash
 npm install prop-types
 ```
+
+
+## need other dependency for handling the form
+
+```bash
+npm install react-hook-form
+```
