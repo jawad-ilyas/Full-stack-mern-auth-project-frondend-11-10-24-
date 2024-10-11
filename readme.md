@@ -103,3 +103,11 @@ npm install prop-types
 ```bash
 npm install react-hook-form
 ```
+
+
+## need to install the react toolkit for the communicate with backend 
+
+```bash
+npm install @reduxjs/toolkit
+npm install react-redux
+```

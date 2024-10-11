@@ -7,7 +7,7 @@ const SignUp = () => {
 
   const { register, reset, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
-    console.log(data)
+    console.trace(data)
     ConsoleValue(data)
     reset();
   }
