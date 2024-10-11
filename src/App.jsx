@@ -1,7 +1,24 @@
-export default function App() {
+import { BrowserRouter, Routes, Route, } from "react-router-dom"
+// * this file present into page / index.js 
+import { About, ErrorPage, Home, Profile, SignIn, SignUp } from "./pages"
+const App = () => {
+
+
+
   return (
-    <h1 className="text-3xl font-bold text-red-400">
-      Hello world!
-    </h1>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="aboutus" element={<About />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
+
+export default App
