@@ -111,3 +111,10 @@ npm install react-hook-form
 npm install @reduxjs/toolkit
 npm install react-redux
 ```
+
+
+## other package for the storage management 
+
+```bash
+npm i redux-persist
+```
