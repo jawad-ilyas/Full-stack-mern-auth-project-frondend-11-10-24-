@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../features/Auth.Slice.js";
 import { useEffect } from "react";
+import OAuth from "../components/OAuth.jsx";
 const SignUp = () => {
   const dispatch = useDispatch();
   const naviagte = useNavigate();
@@ -67,6 +68,7 @@ const SignUp = () => {
           </div>
 
           <button disabled={loading} className="bg-slate-700 w-full rounded-md py-3 text-white font-bold text-xl"> {loading ? "loading " : "Submit"} </button>
+          <OAuth />
         </form>
         <div className="flex flex-row space-x-3 mt-4">
           <p>Have an account ?</p>

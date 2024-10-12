@@ -118,3 +118,10 @@ npm install react-redux
 ```bash
 npm i redux-persist
 ```
+
+
+## also use google auth for the athenitication 
+
+```bash
+npm install firebase
+```

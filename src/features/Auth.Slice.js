@@ -25,10 +25,26 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
     'auth/signIn',
     async (data, { rejectWithValue }) => {
-        console.log("signIn auth slice is called ")
+        console.log("goggle  auth slice is called ", data)
         try {
             console.log("signIn auth slice is called inside ")
             const response = await axios.post("/api/v1/auth/signIn", data)
+            console.log(response)
+            return response?.data?.data
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message || "Network Error. Please try again later."
+            );
+        }
+    }
+)
+export const google = createAsyncThunk(
+    'auth/google',
+    async (data, { rejectWithValue }) => {
+        console.log("google auth slice is called ")
+        try {
+            console.log("google auth slice is called inside ")
+            const response = await axios.post("/api/v1/auth/google", data)
             console.log(response)
             return response?.data?.data
         } catch (error) {
@@ -71,6 +87,21 @@ const AuthSlice = createSlice({
             state.error = false
         })
         builder.addCase(signIn.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+        builder.addCase(google.fulfilled, (state, action) => {
+            state.loading = false
+            state.error = false
+            state.currentUser = action.payload
+            state.isAuthenticated = true
+
+        })
+        builder.addCase(google.pending, (state) => {
+            state.loading = true
+            state.error = false
+        })
+        builder.addCase(google.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         })
