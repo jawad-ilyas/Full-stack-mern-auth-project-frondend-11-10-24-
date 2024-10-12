@@ -3,13 +3,16 @@ import { ConsoleValue } from "../utilis/ConsoleValues.utilis.js";
 import Container from "../wrapper/Container"
 
 import { useForm } from "react-hook-form"
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../features/Auth.Slice.js";
 const SignUp = () => {
-
-  const { register, reset, handleSubmit, formState: { errors } } = useForm();
+  const dispatch = useDispatch();
+  const { error, data, loading } = useSelector(state => state.auth)
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
-    console.trace(data)
+    dispatch(signUp(data))
     ConsoleValue(data)
-    reset();
+
   }
   return (
     <Container >
@@ -56,12 +59,13 @@ const SignUp = () => {
             {errors?.email && <span className="text-red-500 text-sm mt-1">{errors.email.message}</span>}
           </div>
 
-          <button className="bg-slate-700 w-full rounded-md py-3 text-white font-bold text-xl">Submit </button>
+          <button disabled={loading} className="bg-slate-700 w-full rounded-md py-3 text-white font-bold text-xl"> {loading ? "loading " : "Submit"} </button>
         </form>
         <div className="flex flex-row space-x-3 mt-4">
           <p>Have an account ?</p>
           <Link to="/signin" className="text-blue-400">Sign In</Link>
         </div>
+        <p className="text-red-600 text-center mt-6 font-medium">{error && error}</p>
       </div>
     </Container>
   )
