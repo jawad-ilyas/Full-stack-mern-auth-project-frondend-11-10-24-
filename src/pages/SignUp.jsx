@@ -1,19 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ConsoleValue } from "../utilis/ConsoleValues.utilis.js";
 import Container from "../wrapper/Container"
 
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../features/Auth.Slice.js";
+import { useEffect } from "react";
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { error, data, loading } = useSelector(state => state.auth)
+  const naviagte = useNavigate();
+  const { error, loading, isAuthenticated } = useSelector(state => state.auth)
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     dispatch(signUp(data))
     ConsoleValue(data)
 
   }
+  useEffect(() => {
+    if (isAuthenticated) {
+      naviagte("/")
+    }
+  }, [dispatch, isAuthenticated])
   return (
     <Container >
       <div className="max-w-3xl mx-auto">
