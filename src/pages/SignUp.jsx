@@ -5,8 +5,8 @@ import Container from "../wrapper/Container"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../features/Auth.Slice.js";
-import { useEffect } from "react";
 import OAuth from "../components/OAuth.jsx";
+import { useEffect } from "react";
 const SignUp = () => {
   const dispatch = useDispatch();
   const naviagte = useNavigate();
@@ -22,6 +22,7 @@ const SignUp = () => {
       naviagte("/")
     }
   }, [dispatch, isAuthenticated])
+
   return (
     <Container >
       <div className="max-w-3xl mx-auto">

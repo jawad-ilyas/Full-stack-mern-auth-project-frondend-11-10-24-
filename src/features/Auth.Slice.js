@@ -38,6 +38,21 @@ export const signIn = createAsyncThunk(
         }
     }
 )
+export const logout = createAsyncThunk(
+    'auth/logout',
+    async (_, { rejectWithValue }) => {
+        console.log("goggle  auth slice is called ",)
+        try {
+            console.log("logout auth slice is called inside ")
+            await axios.post("/api/v1/auth/logout")
+
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message || "Network Error. Please try again later."
+            );
+        }
+    }
+)
 export const google = createAsyncThunk(
     'auth/google',
     async (data, { rejectWithValue }) => {
@@ -102,6 +117,21 @@ const AuthSlice = createSlice({
             state.error = false
         })
         builder.addCase(google.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+        builder.addCase(logout.fulfilled, (state) => {
+            state.loading = false
+            state.error = false
+            state.currentUser = null
+            state.isAuthenticated = false
+
+        })
+        builder.addCase(logout.pending, (state) => {
+            state.loading = true
+            state.error = false
+        })
+        builder.addCase(logout.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         })
