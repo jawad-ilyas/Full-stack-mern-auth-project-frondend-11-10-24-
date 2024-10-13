@@ -4,6 +4,7 @@ import Container from "../wrapper/Container"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { logout } from "../features/Auth.Slice.js";
 const Profile = () => {
   const dispatch = useDispatch();
 
