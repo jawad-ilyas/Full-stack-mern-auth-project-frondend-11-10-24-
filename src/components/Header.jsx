@@ -12,7 +12,7 @@ const Header = () => {
         dispatch(logout());  // Dispatch the logout action
         navigate("/signin"); // Navigate to the sign-in page
     };
-
+    console.log("header currentUser ", currentUser)
     // Helper function to handle active/inactive link classes
     const navLinkClass = ({ isActive }) =>
         isActive ? "text-red-400" : "text-black";
@@ -24,7 +24,7 @@ const Header = () => {
                     <NavLink to="/">AUTH APP (JMD)</NavLink>
                 </h1>
             </div>
-            <div className="space-x-4">
+            <div className="space-x-4 flex flex-row  items-center   ">
                 {/* NavLinks */}
                 <NavLink to="/" className={navLinkClass}>
                     Home
@@ -46,15 +46,24 @@ const Header = () => {
 
                 {currentUser && (
                     <>
-                        <NavLink to="/profile" className={navLinkClass}>
-                            Profile
-                        </NavLink>
+
                         <button
                             onClick={handleLogout}
                             className="text-black hover:text-red-400 transition duration-200"
                         >
                             Log Out
                         </button>
+                        <NavLink to="/profile" className={navLinkClass}>
+                            {
+                                currentUser?.rest?.photoURL || currentUser?.photoURL ? (
+                                    <img className="size-7 rounded-full" src={currentUser?.rest?.photoURL || currentUser?.photoURL} alt="User Profile" />
+                                ) : (
+                                    "Profile"
+                                )
+}
+
+
+                        </NavLink>
                     </>
                 )}
             </div>
