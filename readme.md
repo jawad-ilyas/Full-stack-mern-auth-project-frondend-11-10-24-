@@ -125,3 +125,7 @@ npm i redux-persist
 ```bash
 npm install firebase
 ```
+
+
+## who to update the image using firebase
+

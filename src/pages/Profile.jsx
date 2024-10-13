@@ -3,15 +3,18 @@ import Container from "../wrapper/Container"
 
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { logout } from "../features/Auth.Slice.js";
+import { fireBaseapp } from "../firebase.js";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 const Profile = () => {
   const dispatch = useDispatch();
 
-
-  const { error, loading, currentUser
-  } = useSelector(state => state.auth)
+  const profileRef = useRef(null)
+  const [imagePer, setImagePer] = useState(0);
+  const { error, loading, currentUser } = useSelector(state => state.auth)
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const [imageUrl, setImageUrl] = useState();
   const onSubmit = async (data) => {
     ConsoleValue(data)
 
@@ -22,25 +25,60 @@ const Profile = () => {
     setValue("name", currentUser?.rest?.name)
   }, [])
 
-
+  const [image, setImage] = useState(undefined)
   const handleSignOut = () => {
     dispatch(logout())
   }
+  useEffect(() => {
+    if (image) {
+      handleFileUpload(image);
+    }
+  }, [image])
+  const handleFileUpload = async (image) => {
+    console.log(image);
+
+    const storage = getStorage(fireBaseapp);
+    const fileName = new Date().getTime() + image.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        setImagePer(Math.round(progress)); // Update progress state
+      },
+      (error) => {
+        // Handle unsuccessful uploads (error callback)
+        console.log("Upload failed:", error);
+      },
+      () => {
+        // Handle successful uploads on complete (complete callback)
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log(downloadURL, "downloadURL");
+          setImageUrl(downloadURL); // Set the download URL in your state
+        });
+      }
+    );
+  };
+
   return (
     <Container >
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold text-center py-4">Profile </h1>
+        {
+          currentUser?.rest?.photoURL ? (
+            <>
+              <input onChange={(e) => setImage(e.target.files[0])} type="file" className="hidden" ref={profileRef} accept="image/*" />
+              <img onClick={() => profileRef.current.click()} className="size-16 mx-auto mb-4 rounded-full object-cover" src={imageUrl ? imageUrl : currentUser?.rest?.photoURL} alt="User Profile" />
+            </>
+          ) : (
+            "Profile"
+          )
+        }
+        <p className={`${imagePer === 100 ? "hidden" : ""} text-center my-2`}>  {(imagePer !== 0) ? "image upload " + imagePer + "%" : ""} </p>
         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          {
-            currentUser?.rest?.photoURL ? (
-              <>
-                <img className="size-16 mx-auto mb-4 rounded-full" src={currentUser?.rest?.photoURL} alt="User Profile" />
-              </>
-            ) : (
-              "Profile"
-            )
-          }
-
 
           <div className="mb-4">
 
